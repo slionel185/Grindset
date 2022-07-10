@@ -24,10 +24,60 @@ const createWorkout = asyncHandler(async (req, res) => {
 })
 
 const updateWorkout = asyncHandler(async (req, res) => {
-    
+    const workout = await Workouts.findById(req.params.id)
+
+    if(!workout) {
+        res.status(400)
+        throw new Error('Workout not found.')
+    }
+
+    const user = await Users.findById(req.user.id)
+
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found.')
+    }
+
+    if(workout.userId.toString() !== user.id) {
+        res.status(401)
+        throw new Error('Not authorized.')
+    }
+
+    const updatedWorkout = await Workouts.findByIdAndUpdate(req.params.id, req.body, { 
+        new: true
+    })
+
+    res.status(200).json(updatedWorkout)
+})
+
+const deleteWorkout = asyncHandler(async (req, res) => {
+    const workout = await Workouts.findById(req.params.id)
+
+    if(!workout) {
+        res.status(400)
+        throw new Error('Workout not found.')
+    }
+
+    const user = await Users.findById(req.user.id)
+
+    if(!user) {
+        res.status(401)
+        throw new Error('User not found.')
+    }
+
+    if(workout.userId.toString() !== user.id) {
+        res.status(401)
+        throw new Error('Not authorized.')
+    }
+
+    await workout.remove()
+
+    res.status(200).json({ id: req.params.id })
 })
 
 module.exports = {
     getWorkouts,
-    createWorkout
+    createWorkout,
+    updateWorkout,
+    deleteWorkout
 }

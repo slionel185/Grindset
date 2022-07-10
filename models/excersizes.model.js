@@ -14,4 +14,4 @@ const excersizesModel = new Schema({
     timestamps: true
 })
 
-module.exports = excersizesModel
+module.exports = model('Excersize', excersizesModel)

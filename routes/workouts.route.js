@@ -3,14 +3,14 @@ const router = Router()
 
 const protect = require('../middleware/auth.middleware')
 
-const { getWorkouts, createWorkout } = require('../controllers/workouts.controller')
+const { getWorkouts, createWorkout, updateWorkout, deleteWorkout } = require('../controllers/workouts.controller')
 
 router.get('/', protect, getWorkouts)
 
 router.post('/', protect, createWorkout)
 
-router.put('/:id', protect)
+router.put('/:id', protect, updateWorkout)
 
-router.delete('/:id', protect)
+router.delete('/:id', protect, deleteWorkout)
 
 module.exports = router

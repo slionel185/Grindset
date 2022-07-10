@@ -6,10 +6,13 @@ const mealsModel = new Schema({
         ref: 'Users',
         required: true
     },
+    name: {
+        type: String,
+        required: true
+    },
     foods: [{
         type: Schema.Types.ObjectId,
-        ref: 'Users',
-        required: true
+        ref: 'Users'
     }],
     nInfo: {
         calories: {
